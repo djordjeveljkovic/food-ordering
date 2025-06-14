@@ -1,0 +1,49 @@
+<!-- Main container with a soft gradient background -->
+<div class="flex h-screen items-center justify-center  font-sans">
+
+  <!-- Using the updated .form-card component class -->
+  <div class="form-card">
+
+    <!-- Added an icon for visual flair -->
+
+    <h2 class="mb-2 text-center text-3xl font-bold text-gray-800">Welcome Back</h2>
+    <p class="mb-8 text-center text-gray-500">Please enter your credentials to log in.</p>
+
+    <form (ngSubmit)="onSubmit()" class="space-y-6">
+
+      <!-- Email Input -->
+      <div>
+        <label for="email" class="form-label">Email Address</label>
+        <input
+          type="email"
+          id="email"
+          [(ngModel)]="email"
+          name="email"
+          class="form-input"
+          required
+          placeholder="you@example.com"
+        />
+      </div>
+
+      <!-- Password Input -->
+      <div>
+        <label for="password" class="form-label">Password</label>
+        <input
+          type="password"
+          id="password"
+          [(ngModel)]="password"
+          name="password"
+          class="form-input"
+          required
+          placeholder="••••••••"
+        />
+      </div>
+
+      <!-- Login Button -->
+      <button type="submit" class="btn-primary">
+        Login
+      </button>
+
+    </form>
+  </div>
+</div>

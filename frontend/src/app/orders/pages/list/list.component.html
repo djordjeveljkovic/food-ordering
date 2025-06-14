@@ -1,0 +1,145 @@
+<div class="container mx-auto py-8">
+  <h1 class="text-3xl font-bold">Orders List</h1>
+  <form class="mb-6 mt-4">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 items-end">
+      <div>
+        <label for="status" class="block text-sm font-medium">Status</label>
+        <select
+          id="status"
+          [(ngModel)]="searchCriteria.status"
+          name="status"
+          class="block w-full mt-1 border-gray-300 rounded-md"
+        >
+          <option value="">All</option>
+          <option value="ORDERED">Ordered</option>
+          <option value="CANCELED">Canceled</option>
+          <option value="PREPARING">Preparing</option>
+          <option value="DELIVERED">Delivered</option>
+          <option value="SCHEDULED">Scheduled</option>
+          <option value="PREPARING">Preparing</option>
+        </select>
+      </div>
+      <div>
+        <label for="dateFrom" class="block text-sm font-medium">Date From</label>
+        <input
+          type="date"
+          id="dateFrom"
+          [(ngModel)]="searchCriteria.dateFrom"
+          name="dateFrom"
+          class="block w-full mt-1 border-gray-300 rounded-md"
+        />
+      </div>
+      <div>
+        <label for="dateTo" class="block text-sm font-medium">Date To</label>
+        <input
+          type="date"
+          id="dateTo"
+          [(ngModel)]="searchCriteria.dateTo"
+          name="dateTo"
+          class="block w-full mt-1 border-gray-300 rounded-md"
+        />
+      </div>
+      <div *ngIf="isAdmin">
+        <label for="userId" class="block text-sm font-medium">User ID</label>
+        <input
+          type="number"
+          id="userId"
+          [(ngModel)]="searchCriteria.userId"
+          name="userId"
+          class="block w-full mt-1 border-gray-300 rounded-md"
+        />
+      </div>
+    </div>
+    <div class="flex justify-between items-center mt-4">
+      <button
+        type="submit"
+        class="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700"
+        (click)="onSearch()"
+      >
+        Search
+      </button>
+      <button
+        type="button"
+        class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+        (click)="createOrder()"
+      >
+        Create New Order
+      </button>
+    </div>
+  </form>
+
+  <!-- Orders Table -->
+  <table class="min-w-full table-auto border-collapse border border-gray-300 mt-4">
+    <thead>
+    <tr>
+      <th class="px-4 py-2 border border-gray-300">Order ID</th>
+      <th class="px-4 py-2 border border-gray-300">Created By</th>
+      <th class="px-4 py-2 border border-gray-300">Items</th>
+      <th class="px-4 py-2 border border-gray-300">Status</th>
+      <th class="px-4 py-2 border border-gray-300">Scheduled For</th>
+      <th class="px-4 py-2 border border-gray-300">Created At</th>
+      <th class="px-4 py-2 border border-gray-300">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let order of orders">
+      <td class="px-4 py-2 border border-gray-300">{{ order.id }}</td>
+      <td class="px-4 py-2 border border-gray-300">
+        {{ order.createdBy.firstName }} {{ order.createdBy.lastName }}
+      </td>
+      <td class="px-4 py-2 border border-gray-300">
+        <ul class="list-disc list-inside">
+          <li *ngFor="let item of order.items">{{ item.name }}</li>
+        </ul>
+      </td>
+      <td class="px-4 py-2 border border-gray-300">{{ order.status }}</td>
+      <td class="px-4 py-2 border border-gray-300">
+          <span *ngIf="isValidDate(order.scheduledFor); else notScheduled">
+            {{ order.scheduledFor | date: 'short' }}
+          </span>
+        <ng-template #notScheduled>Not Scheduled</ng-template>
+      </td>
+      <td class="px-4 py-2 border border-gray-300">
+        {{ order.createdDate | date: 'short' }}
+      </td>
+      <td class="px-4 py-2 border border-gray-300">
+        <button
+          *ngIf="(order.status === 'ORDERED') && canCancelOrder"
+          class="bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700"
+          (click)="cancelOrder(order.id)"
+        >
+          Cancel Order
+        </button>
+        <button
+          *ngIf="
+              order.status !== 'COMPLETED' &&
+              order.status !== 'CANCELED' &&
+              canTrackOrder
+            "
+          class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700"
+          (click)="trackOrder(order.id)"
+        >
+          Track
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+  <div class="flex justify-between items-center mt-4">
+    <button
+      class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
+      (click)="onPageChange(currentPage - 1)"
+      [disabled]="currentPage === 0"
+    >
+      Previous
+    </button>
+    <span>Page {{ currentPage + 1 }} of {{ totalPages }}</span>
+    <button
+      class="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700"
+      (click)="onPageChange(currentPage + 1)"
+      [disabled]="currentPage + 1 >= totalPages"
+    >
+      Next
+    </button>
+  </div>
+</div>

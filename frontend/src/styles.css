@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  /* Define a class for the main form card */
+  .form-card {
+    @apply w-full max-w-sm rounded-lg bg-white p-6 shadow-md;
+  }
+
+  /* A class for the form labels */
+  .form-label {
+    @apply block text-sm font-medium text-gray-700;
+  }
+
+  /* A generic, reusable input field style */
+  .form-input {
+    @apply mt-1 block px-3 py-2 w-full rounded-md border border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none;
+  }
+
+  /* A primary button style */
+  .btn-primary {
+    @apply w-full justify-center rounded-lg bg-indigo-600 py-2 text-white hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2;
+  }
+}

@@ -1,0 +1,58 @@
+<div class="container mx-auto py-8">
+  <h1 class="text-3xl font-bold mb-4">Users</h1>
+  <button
+    *ngIf="canCreateUsers"
+    (click)="addUser()"
+    class="bg-green-500 text-white px-4 py-2 rounded mb-4"
+  >
+    Add User
+  </button>
+  <table class="w-full table-auto border-collapse border border-gray-300">
+    <thead>
+    <tr class="bg-gray-100">
+      <th class="border border-gray-300 px-4 py-2">Email</th>
+      <th class="border border-gray-300 px-4 py-2">First Name</th>
+      <th class="border border-gray-300 px-4 py-2">Last Name</th>
+      <th class="border border-gray-300 px-4 py-2">Permissions</th>
+      <th class="border border-gray-300 px-4 py-2">Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let user of users">
+      <td class="border border-gray-300 px-4 py-2">
+        <a
+          *ngIf="canEditUsers; else plainEmail"
+          (click)="editUser(user.id)"
+          class="text-blue-500 hover:underline"
+        >
+          {{ user.email }}
+        </a>
+        <ng-template #plainEmail>
+          <span>{{ user.email }}</span>
+        </ng-template>
+      </td>
+      <td class="border border-gray-300 px-4 py-2">{{ user.firstName }}</td>
+      <td class="border border-gray-300 px-4 py-2">{{ user.lastName }}</td>
+      <td class="border border-gray-300 px-4 py-2">
+        <ul *ngIf="user.permissions.length > 0; else noPermissions" class="list-disc pl-4">
+          <li *ngFor="let permission of user.permissions">
+            {{ permission }}
+          </li>
+        </ul>
+        <ng-template #noPermissions>
+          <span>No permissions assigned</span>
+        </ng-template>
+      </td>
+      <td class="border border-gray-300 px-4 py-2">
+        <button
+          *ngIf="canDeleteUsers"
+          (click)="deleteUser(user.id)"
+          class="bg-red-500 text-white px-4 py-1 rounded ml-2"
+        >
+          Delete
+        </button>
+      </td>
+    </tr>
+    </tbody>
+  </table>
+</div>

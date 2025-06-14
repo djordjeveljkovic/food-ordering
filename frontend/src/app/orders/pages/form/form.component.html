@@ -1,0 +1,35 @@
+<div class="container mx-auto py-8">
+  <h1 class="text-3xl font-bold mb-4">Create Order</h1>
+  <form (ngSubmit)="onSubmit()" class="space-y-4">
+    <div>
+      <label class="block text-sm font-medium mb-2">Select Dishes</label>
+      <div *ngFor="let dish of availableDishes">
+        <label class="inline-flex items-center">
+          <input
+            type="checkbox"
+            [value]="dish.id"
+            (change)="onDishChange(dish.id, $event)"
+            class="form-checkbox text-indigo-600 rounded focus:ring-indigo-500 focus:border-indigo-500"
+          />
+          <span class="ml-2 text-sm">{{ dish.name }}</span>
+        </label>
+      </div>
+    </div>
+    <div>
+      <label for="scheduleDate">Schedule Date</label>
+      <input
+        type="datetime-local"
+        id="scheduleDate"
+        [(ngModel)]="order.scheduleDate"
+        name="scheduleDate"
+        [min]="minDateTime"
+      />
+    </div>
+    <button
+      type="submit"
+      class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+    >
+      Submit Order
+    </button>
+  </form>
+</div>

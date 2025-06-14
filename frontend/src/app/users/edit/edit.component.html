@@ -1,0 +1,75 @@
+<div class="container mx-auto py-8">
+  <h1 class="text-3xl font-bold mb-4">Edit User</h1>
+  <form (ngSubmit)="onSubmit()" class="space-y-4">
+    <div>
+      <label for="firstName" class="block text-sm font-medium">First Name</label>
+      <input
+        type="text"
+        id="firstName"
+        [(ngModel)]="user.firstName"
+        name="firstName"
+        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        required
+      />
+    </div>
+    <div>
+      <label for="lastName" class="block text-sm font-medium">Last Name</label>
+      <input
+        type="text"
+        id="lastName"
+        [(ngModel)]="user.lastName"
+        name="lastName"
+        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        required
+      />
+    </div>
+    <div>
+      <label for="email" class="block text-sm font-medium">Email</label>
+      <input
+        type="email"
+        id="email"
+        [(ngModel)]="user.email"
+        name="email"
+        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        readonly
+      />
+    </div>
+    <div>
+      <label for="password" class="block text-sm font-medium">New Password</label>
+      <input
+        type="password"
+        id="password"
+        [(ngModel)]="user.password"
+        name="password"
+        class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500"
+        placeholder="Leave empty to keep the current password"
+      />
+    </div>
+    <div>
+      <label class="block text-sm font-medium mb-2">Permissions</label>
+      <div *ngFor="let permission of availablePermissions">
+        <label class="inline-flex items-center">
+          <input
+            type="checkbox"
+            [value]="permission"
+            [checked]="user.permissions.includes(permission)"
+            (change)="onPermissionChange(permission, $event)"
+            class="form-checkbox text-indigo-600 rounded focus:ring-indigo-500 focus:border-indigo-500"
+          />
+          <span class="ml-2 text-sm">{{ permission }}</span>
+        </label>
+      </div>
+    </div>
+    <div class="mb-4">
+      <label class="block text-gray-700 text-sm font-bold mb-2" for="isAdmin">Is Admin:</label>
+      <input id="isAdmin" name="isAdmin" type="checkbox" [(ngModel)]="user.isAdmin" class="mr-2 leading-tight" />
+      <span class="text-gray-700 text-sm">Admin privileges</span>
+    </div>
+    <button
+      type="submit"
+      class="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700"
+    >
+      Save Changes
+    </button>
+  </form>
+</div>
